@@ -137,9 +137,12 @@ btnLogin.addEventListener('click', function (e) {
   // -----------------------------------------------------
 
   // 1. SHOW MOVEMENTS FUNCTION
-  containerMovements.innerHTML = '';
-  const showMov = function (movements) {
-    movements.forEach(function (mov, i) {
+  const showMov = function (movements, sort = false) {
+    containerMovements.innerHTML = '';
+
+    const movSort = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+    movSort.forEach(function (mov, i) {
       const type = mov > 0 ? 'deposit' : 'withdrawal';
 
       const htmlMov = `
@@ -229,6 +232,7 @@ btnLogin.addEventListener('click', function (e) {
     inputTransferTo.value = '';
     inputTransferAmount.value = '';
   });
+
   // 7. LOAN FUNCTION
   btnLoan.addEventListener('click', function (e) {
     e.preventDefault();
@@ -245,6 +249,14 @@ btnLogin.addEventListener('click', function (e) {
       alert(`Sorry! We can't give you this loan`);
       inputLoanAmount.value = '';
     }
+  });
+
+  // 8. SORT FUNCTION
+  let sorted = false;
+  btnSort.addEventListener('click', function (e) {
+    e.preventDefault();
+    showMov(currentAcc.movements, !sorted);
+    sorted = !sorted;
   });
 });
 
